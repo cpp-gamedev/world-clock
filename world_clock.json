@@ -1,0 +1,14 @@
+{
+	"PDT": {
+		"offset": -7,
+		"colour": "#ff8800ff"
+	},
+	"IST": {
+		"offset": 5.5,
+		"colour": "#44ddffff"
+	},
+	"CET": {
+		"offset": 2,
+		"colour": "#11ee44ff"
+	}
+}
