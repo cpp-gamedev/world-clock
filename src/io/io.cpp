@@ -1,4 +1,5 @@
 #include <io/io.hpp>
+#include <io/str_to_f.hpp>
 #include <charconv>
 #include <fstream>
 #include <iostream>
@@ -91,8 +92,8 @@ struct parser_t {
 	void parse_offset(io::hand_t& out_hand) {
 		auto end = text.find_first_of(",}");
 		if (end == std::string_view::npos) { error(", or }"); }
-		auto [ptr, ec] = std::from_chars(text.data(), text.data() + end, out_hand.offset);
-		if (ec != std::errc()) { error("<number>"); }
+		auto [ptr, res] = io::str_to_f(text.data(), text.data() + end, out_hand.offset, false);
+		if (!res) { error("<number>"); }
 		text = text.substr(ptr - text.begin());
 		skip_ws();
 	}
@@ -101,8 +102,8 @@ struct parser_t {
 		auto hex = quoted(false);
 		if (hex.empty() || hex[0] != '#') { error("#<hex>", hex); }
 		auto value = float{};
-		auto [ptr, ec] = std::from_chars(hex.data() + 1, hex.data() + hex.size() - 1, value, std::chars_format::hex);
-		if (ec != std::errc()) { error("#<hex>"); }
+		auto [ptr, res] = io::str_to_f(hex.data() + 1, hex.data() + hex.size(), value, true);
+		if (!res) { error("#<hex>"); }
 		out_hand.colour_hex = value >= 1.0f ? static_cast<std::uint32_t>(value) - 1 : 0x333333ff;
 	}
 };

@@ -35,6 +35,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   src/gui/gui.cpp
   src/gui/gui.hpp
 
+  src/io/str_to_f.hpp
   src/io/io.cpp
   src/io/io.hpp
 
@@ -43,3 +44,17 @@ target_sources(${PROJECT_NAME} PRIVATE
 
   src/main.cpp
 )
+
+# detect if from_chars(..., float&, ...) works
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+try_compile(has_from_chars
+  ${CMAKE_CURRENT_BINARY_DIR}
+  "${CMAKE_CURRENT_SOURCE_DIR}/src/io/str_to_f_fc.cpp"
+)
+
+if(has_from_chars)
+  target_sources(${PROJECT_NAME} PRIVATE src/io/str_to_f_fc.cpp)
+else()
+  # use fallback otherwise
+  target_sources(${PROJECT_NAME} PRIVATE src/io/str_to_f_stf.cpp)
+endif()
