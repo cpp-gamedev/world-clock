@@ -1,4 +1,5 @@
 #pragma once
+#include <app/shared.hpp>
 #include <ktl/fixed_vector.hpp>
 #include <string>
 
@@ -10,7 +11,7 @@ struct hand_t {
 };
 
 struct clock_t {
-	ktl::fixed_vector<hand_t, 16> hands{};
+	ktl::fixed_vector<hand_t, max_hands_v> hands{};
 };
 
 bool read_file(std::string& out_text, char const* path);

@@ -1,16 +1,14 @@
 #pragma once
+#include <app/shared.hpp>
 #include <clock/world_hour.hpp>
 #include <glm/vec2.hpp>
 #include <ktl/fixed_vector.hpp>
 #include <vulkify/context/frame.hpp>
-#include <vulkify/core/rgba.hpp>
 #include <vulkify/graphics/primitives/circle_shape.hpp>
 #include <vulkify/graphics/primitives/quad_shape.hpp>
 
 namespace wc {
 struct info_t {
-	static constexpr std::size_t max_hands_v = 8;
-
 	glm::vec2 centre{};
 	glm::vec2 hand_pivot{0.0f, 0.4f};
 	glm::vec2 eye_npos{0.35f, 0.2f};
@@ -59,6 +57,6 @@ struct eye_t {
 struct gui_t {
 	face_t face{};
 	eye_t eyes[2]{};
-	ktl::fixed_vector<hand_t, info_t::max_hands_v> hands{};
+	ktl::fixed_vector<hand_t, max_hands_v> hands{};
 };
 } // namespace wc

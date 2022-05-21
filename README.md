@@ -2,7 +2,7 @@
 
 **Simple 2D 24-hour clock with a hand for each time-zone**
 
-<!--insert video link here-->
+https://user-images.githubusercontent.com/16272243/169638347-44457b0f-04f7-4bc1-ab89-9f966a020207.mp4
 
 ## Usage
 
@@ -21,8 +21,7 @@ The document root must be a single object containing a list of objects (key-valu
  "some_unique_id": {
     "offset": -3.25,
     "colour": "#ff8800ff"
-  },
-  ...
+  }
 }
 ```
 

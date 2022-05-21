@@ -30,6 +30,7 @@ target_sources(${PROJECT_NAME} PRIVATE
   src/app/app.cpp
   src/app/app.hpp
   src/app/input.hpp
+  src/app/shared.hpp
 
   src/gui/gui.cpp
   src/gui/gui.hpp

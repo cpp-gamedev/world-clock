@@ -101,7 +101,7 @@ struct parser_t {
 		auto hex = quoted(false);
 		if (hex.empty() || hex[0] != '#') { error("#<hex>", hex); }
 		auto value = float{};
-		auto [ptr, ec] = std::from_chars(hex.data() + 1, hex.data() + hex.size(), value, std::chars_format::hex);
+		auto [ptr, ec] = std::from_chars(hex.data() + 1, hex.data() + hex.size() - 1, value, std::chars_format::hex);
 		if (ec != std::errc()) { error("#<hex>"); }
 		out_hand.colour_hex = value >= 1.0f ? static_cast<std::uint32_t>(value) - 1 : 0x333333ff;
 	}
@@ -121,7 +121,7 @@ bool io::read_file(std::string& out_text, char const* path) {
 bool io::from_text(clock_t& out_clock, std::string_view text) {
 	try {
 		parser_t{out_clock, text}();
-	} catch (bad_parse bp) {
+	} catch (bad_parse const& bp) {
 		std::cerr << "JSON parse error (expected " << bp.expected << "):\n\n" << bp.obtained << "\n";
 		return false;
 	}
