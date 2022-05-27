@@ -29,7 +29,7 @@ void run(vf::Context ctx, wc::world_clock_t clock) {
 	std::cout << "\nclock:\n" << clock << '\n';
 
 	auto info = wc::info_t{};
-	auto app = wc::app_t(ctx, std::move(clock), info);
+	auto app = wc::app_t(&ctx, std::move(clock), info);
 	ctx.show();
 
 	while (!ctx.closing()) {

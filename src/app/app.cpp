@@ -1,4 +1,5 @@
 #include <app/app.hpp>
+#include <vulkify/context/context.hpp>
 #include <random>
 
 namespace wc {
@@ -9,18 +10,18 @@ float random_range(float min, float max) {
 }
 } // namespace
 
-app_t::app_t(vf::Context const& context, world_clock_t clock, info_t const& info) : m_clock(std::move(clock)) {
-	m_gui.face = wc::face_t::make(context, info);
+app_t::app_t(ktl::not_null<vf::Context const*> context, world_clock_t clock, info_t const& info) : m_clock(std::move(clock)), m_context(context) {
+	m_gui.face = wc::face_t::make(*context, info);
 	for (auto const& hour : m_clock) {
 		if (!m_gui.hands.has_space()) { break; }
-		m_gui.hands.push_back(wc::hand_t::make(context, hour.hour, vf::Rgba::make(hour.colour), info));
+		m_gui.hands.push_back(wc::hand_t::make(*context, hour.hour, vf::Rgba::make(hour.colour), info));
 	}
 
 	auto const face_radius = m_gui.face.body.diameter() * 0.5f;
 	auto const eye_y = info.centre.y + face_radius * info.eye_npos.y;
 	auto const eye_dx = face_radius * info.eye_npos.x;
-	m_gui.eyes[0] = wc::eye_t::make(context, {info.centre.x - eye_dx, eye_y}, info);
-	m_gui.eyes[1] = wc::eye_t::make(context, {info.centre.x + eye_dx, eye_y}, info);
+	m_gui.eyes[0] = wc::eye_t::make(*context, {info.centre.x - eye_dx, eye_y}, info);
+	m_gui.eyes[1] = wc::eye_t::make(*context, {info.centre.x + eye_dx, eye_y}, info);
 
 	m_blink.next = vf::Time(random_range(blink_rate.first.count(), blink_rate.second.count()));
 }
@@ -36,7 +37,7 @@ bool app_t::tick(vf::Frame const& frame) {
 	}
 	blink(frame.dt());
 
-	eyes(frame.instance().cursorPosition());
+	eyes(m_context->unproject(m_context->cursorPosition()));
 	return true;
 }
 

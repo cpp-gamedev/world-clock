@@ -14,8 +14,8 @@ if(NOT vulkify_FOUND)
   message(STATUS "Downloading vulkify")
   include(FetchContent)
   FetchContent_Declare(vf_src
-    GIT_REPOSITORY https://github.com/vulkify/vulkify
-    GIT_TAG f3dea66
+    GIT_REPOSITORY https://github.com/cpp-gamedev/vulkify
+    GIT_TAG ecd1a61
   )
   FetchContent_MakeAvailable(vf_src)
 endif()

@@ -2,13 +2,14 @@
 #include <app/input.hpp>
 #include <clock/world_clock.hpp>
 #include <gui/gui.hpp>
+#include <ktl/not_null.hpp>
 
 namespace wc {
 using namespace std::chrono_literals;
 
 class app_t {
   public:
-	app_t(vf::Context const& context, world_clock_t clock, info_t const& info = {});
+	app_t(ktl::not_null<vf::Context const*> context, world_clock_t clock, info_t const& info = {});
 
 	bool tick(vf::Frame const& frame);
 
@@ -24,6 +25,11 @@ class app_t {
 	vf::Time blink_duration{0.12s};
 
   private:
+	void free_rotate(vf::Time const dt);
+	void reset(vf::Time const dt);
+	void blink(vf::Time const dt);
+	void eyes(glm::vec2 cursor);
+
 	enum class flag { reset, blink };
 
 	world_clock_t m_clock{};
@@ -39,11 +45,6 @@ class app_t {
 		vf::Radian previous{};
 	} m_offset{};
 	ktl::enum_flags<flag> flags{};
-
-  private:
-	void free_rotate(vf::Time const dt);
-	void reset(vf::Time const dt);
-	void blink(vf::Time const dt);
-	void eyes(glm::vec2 cursor);
+	ktl::not_null<vf::Context const*> m_context;
 };
 } // namespace wc
