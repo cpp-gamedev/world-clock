@@ -13,6 +13,8 @@ face_t face_t::make(vf::Context const& context, info_t const& info) {
 	auto const diameter = 2.0f * info.hand_height * (1.0f + info.face_pad);
 	ret.body = vf::CircleShape(context, "face_body", {diameter});
 	ret.body.tint() = info.face_tint.linear();
+	ret.body.silhouette.scale = 1.05f;
+	ret.body.silhouette.tint = info.pupil_tint;
 	for (auto [marker, index] : ktl::enumerate(ret.markers)) {
 		marker = vf::CircleShape(context, "face_marker_" + std::to_string(index), {info.marker_radius * 2.0f});
 		auto const hour = total_hours * static_cast<float>(index) / static_cast<float>(std::size(ret.markers));

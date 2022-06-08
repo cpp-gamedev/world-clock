@@ -15,7 +15,7 @@ if(NOT vulkify_FOUND)
   include(FetchContent)
   FetchContent_Declare(vf_src
     GIT_REPOSITORY https://github.com/cpp-gamedev/vulkify
-    GIT_TAG ecd1a61
+    GIT_TAG 5afff2b
   )
   FetchContent_MakeAvailable(vf_src)
 endif()
